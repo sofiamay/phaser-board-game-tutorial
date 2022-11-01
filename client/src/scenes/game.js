@@ -1,4 +1,5 @@
 import Card from '../helpers/card';
+import Zone from '../helpers/zone';
 
 export default class Game extends Phaser.Scene {
     constructor() {
@@ -15,6 +16,10 @@ export default class Game extends Phaser.Scene {
     }
 
     create() {
+        this.zone = new Zone(this);
+        this.dropZone = this.zone.renderZone();
+        this.outline = this.zone.renderOutline(this.dropZone);
+        
         this.dealText = this.add.text(75, 350, ['DEAL CARDS'])
         	.setFontSize(18).setFontFamily('Trebuchet MS')
         	.setColor('#00ffff')
