@@ -1,0 +1,24 @@
+{
+  "name": "phaser-board-game-tutorial",
+  "version": "1.0.0",
+  "description": "Phaser Board Game Tutorial",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sofiamay/phaser-board-game-tutorial.git"
+  },
+  "author": "Sofia May",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sofiamay/phaser-board-game-tutorial/issues"
+  },
+  "homepage": "https://github.com/sofiamay/phaser-board-game-tutorial#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "socket.io": "^4.5.3"
+  }
+}
