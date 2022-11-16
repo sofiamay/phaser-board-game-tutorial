@@ -18,10 +18,17 @@ export default class Game extends Phaser.Scene {
     }
 
     create() {
+        this.isPlayerA = false;
+        this.opponentCards = [];
+
         this.socket = io('http://localhost:3000');
 
         this.socket.on('connect', function() {
             console.log('Connected!');
+        });
+
+        this.socket.on('isPlayerA', function() {
+            self.isPlayerA = true;
         });
 
         this.zone = new Zone(this);
