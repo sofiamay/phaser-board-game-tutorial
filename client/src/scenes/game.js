@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 
 import Card from '../helpers/card';
 import Zone from '../helpers/zone';
+import Dealer from '../helpers/dealer';
 
 export default class Game extends Phaser.Scene {
     constructor() {
@@ -18,19 +19,11 @@ export default class Game extends Phaser.Scene {
     }
 
     create() {
+        let self = this;
+
         this.isPlayerA = false;
         this.opponentCards = [];
-
-        this.socket = io('http://localhost:3000');
-
-        this.socket.on('connect', function() {
-            console.log('Connected!');
-        });
-
-        this.socket.on('isPlayerA', function() {
-            self.isPlayerA = true;
-        });
-
+        this.dealer = new Dealer(this);
         this.zone = new Zone(this);
         this.dropZone = this.zone.renderZone();
         this.outline = this.zone.renderOutline(this.dropZone);
@@ -40,17 +33,8 @@ export default class Game extends Phaser.Scene {
         	.setColor('#00ffff')
         	.setInteractive();
 
-        let self = this;
-
-        this.dealCards = () => {
-        	for (let i = 0; i < 5; i++) {
-                let playerCard = new Card(this);
-                playerCard.render(475 + (i * 100), 650, 'cyanCardFront');
-            }
-        }
-
         this.dealText.on('pointerdown', function () {
-            self.dealCards();
+            self.socket.emit("dealCards");
         })
 
         this.dealText.on('pointerover', function () {
@@ -65,6 +49,22 @@ export default class Game extends Phaser.Scene {
             gameObject.x = dragX;
             gameObject.y = dragY;
         })
+
+        // SOCKET FUNCTIONALITY
+        this.socket = io('http://localhost:3000');
+
+        this.socket.on('connect', function() {
+            console.log('Connected!');
+        });
+
+        this.socket.on('isPlayerA', function() {
+            self.isPlayerA = true;
+        });
+
+        this.socket.on('dealCards', function() {
+            self.dealer.dealCards();
+            self.dealText.disableInteractive;
+        });
 
 
     }
